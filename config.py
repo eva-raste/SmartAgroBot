@@ -1,2 +1,0 @@
-api_key = "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"
-weather_api_key = "618b4920d27ea4538b1347228ed8f6f0"
