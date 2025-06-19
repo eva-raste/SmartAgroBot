@@ -25,14 +25,14 @@ def get_chatbot_response(user_input):
     data = {
         "model": "openai/gpt-3.5-turbo",
         "messages": messages,
-        "temperature": 0.7,  # Slightly lower for more focused responses
-        "max_tokens": 2000,  # Increased token limit
-        "stream": False  # Ensure complete response
+        "temperature": 0.7,  
+        "max_tokens": 2000,  
+        "stream": False 
     }
     
     try:
         response = requests.post(api_url, headers=headers, json=data, timeout=30)
-        response.raise_for_status()  # Raises exception for 4XX/5XX errors
+        response.raise_for_status() 
         
         result = response.json()
         if "choices" in result:
@@ -91,21 +91,33 @@ def get_voice_input():
 
 # ========== Voice Output ==========
 
-import platform
+from gtts import gTTS
+import pygame
 
 def speak_text(text):
-    try:
-        tts = gTTS(text=text, lang='en')  # Change 'en' to 'hi', 'gu', etc. for different languages
-        filename = "response.mp3"
-        tts.save(filename)
+    print(f"[DEBUG] speak_text received: {text}")  
 
-        system_platform = platform.system()
-        if system_platform == "Windows":
-            os.system(f"start {filename}")
-        else:
-            print("Unsupported OS. Please play the file manually.")
+    if not text:
+        print("[DEBUG] No text provided to speak_text.")
+        return
+
+    try:
+        tts = gTTS(text=text, lang='en')  
+        filename = "response.mp3"
+        tts.save(filename)  
+        print("[DEBUG] Audio saved as response.mp3")  
+
+        pygame.mixer.init()
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play()
+        print("[DEBUG] Playing audio...")
+
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+        print("[DEBUG] Audio playback finished.")
+
     except Exception as e:
-        print("Voice output error:", e)
+        print(f"[ERROR] Error in speak_text: {e}")
 
 
 # ========== Weather Query Detection ==========
@@ -117,9 +129,9 @@ def is_weather_query(user_input):
 
 def extract_city_from_input(user_input):
     patterns = [
-        r'(?:weather|temperature|forecast|rain).*?(?:in|at|for)\s+([A-Za-z\s]+)',  # "rain in Bhuj"
-        r'(?:in|at|for)\s+([A-Za-z\s]+?)\s+(?:weather|temperature|forecast|rain)',  # "in Bhuj today"
-        r'(?:what is|will there be).*?(?:weather|rain).*?(?:in|at|for)\s+([A-Za-z\s]+)'  # "will it rain in Bhuj"
+        r'(?:weather|temperature|forecast|rain).*?(?:in|at|for)\s+([A-Za-z\s]+)',  
+        r'(?:in|at|for)\s+([A-Za-z\s]+?)\s+(?:weather|temperature|forecast|rain)',  
+        r'(?:what is|will there be).*?(?:weather|rain).*?(?:in|at|for)\s+([A-Za-z\s]+)'  
     ]
     
     for pattern in patterns:
@@ -134,11 +146,10 @@ def extract_city_from_input(user_input):
 # ========== Input Handler ==========
 
 from langdetect import detect, DetectorFactory
-DetectorFactory.seed = 0  # Make language detection deterministic
+DetectorFactory.seed = 0 
 
 def handle_user_input(user_input):
     try:
-        # Detect language only if input is longer than a few words
         if len(user_input.split()) >= 4:
             source_lang = detect(user_input)
         else:
@@ -175,8 +186,7 @@ def handle_user_input(user_input):
 def translate_back(text, target_lang):
     if target_lang != 'en':
         try:
-            # Split long text into chunks for translation
-            max_chunk_size = 5000  # Google Translate limit
+            max_chunk_size = 5000 
             chunks = [text[i:i+max_chunk_size] for i in range(0, len(text), max_chunk_size)]
             translated_chunks = []
             

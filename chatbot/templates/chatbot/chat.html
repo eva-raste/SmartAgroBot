@@ -1,168 +1,197 @@
 <!DOCTYPE html>
 <html lang="en-IN">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Agro Assistant</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f6f6f6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+<style>
+    * {
+    box-sizing: border-box;
+}
 
-        .chat-box {
-            max-width: 600px;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e5f3ea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-        .header {
-            padding: 15px;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            font-size: 20px;
-        }
+.chat-box {
+    width: 100%;
+    max-width: 700px;
+    height: 95vh;
+    background-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+}
 
-        .chat-history {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 15px;
-            background-color: #fff;
-            border-left: 1px solid #ccc;
-            border-right: 1px solid #ccc;
-        }
+.header {
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
 
-        .msg-block {
-            margin-bottom: 10px;
-        }
+.chat-history {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+}
 
-        .user-msg {
-            background-color: #d1f0ff;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 5px;
-        }
+.msg-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    animation: fadeIn 0.3s ease-in-out;
+}
 
-        .bot-msg {
-            background-color: #e8ffe8;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .chat-input {
-            display: flex;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-top: 1px solid #ccc;
-        }
+.user-msg {
+    align-self: flex-end;
+    background-color: #d1f0ff;
+    color: #000;
+    padding: 12px 16px;
+    max-width: 75%;
+    margin-top: 4px;
+}
 
-        .chat-input input[type="text"] {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
+.bot-msg {
+    align-self: flex-start;
+    background-color: #e6ffe6;
+    color: #000;
+    padding: 12px 16px;
+    max-width: 75%;
+    margin-top: 4px;
+}
 
-        .chat-input button {
-            padding: 10px 15px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.chat-input {
+    display: flex;
+    padding: 15px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
 
-        .chat-input button:hover {
-            background-color: #45a049;
-        }
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
 
-        .mic-button {
-            background-color: #2196F3;
-            margin-left: 5px;
-        }
+.chat-input button {
+    margin-left: 10px;
+    padding: 12px 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
 
-        .mic-button:hover {
-            background-color: #0b7dda;
-        }
+.chat-input button:hover {
+    background-color: #45a049;
+}
 
-        .clear-form {
-            text-align: center;
-            margin-top: 5px;
-        }
+.mic-button {
+    background-color: #2196F3;
+}
 
-        .clear-form button {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+.mic-button:hover {
+    background-color: #0b7dda;
+}
 
-        .clear-form button:hover {
-            background-color: #d32f2f;
-        }
+.clear-form {
+    text-align: center;
+    padding: 10px;
+}
 
-        .example-btn {
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-size: 14px;
-        }
+.clear-form button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-        .example-btn:hover {
-            background-color: #e0ffe0;
-            transform: scale(1.05);
-        }
+.clear-form button:hover {
+    background-color: #d32f2f;
+}
 
-        .loading-bubble {
-            background-color: white;
-            border-radius: 12px;
-            padding: 10px 16px;
-            display: inline-block;
-            margin: 10px;
-            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-        }
+.example-btn {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 14px;
+}
 
-        .loading-bubble .dot {
-            height: 8px;
-            width: 8px;
-            margin: 0 2px;
-            background-color: #444;
-            border-radius: 50%;
-            display: inline-block;
-            animation: blink 1.4s infinite;
-        }
+.example-btn:hover {
+    background-color: #dfffd9;
+    transform: scale(1.05);
+}
 
-        .loading-bubble .dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .loading-bubble .dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
+.loading-bubble {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 10px;
+}
 
-        @keyframes blink {
-            0%, 80%, 100% {
-                opacity: 0;
-            }
-            40% {
-                opacity: 1;
-            }
-        }
+.loading-bubble .dot {
+    height: 8px;
+    width: 8px;
+    margin: 0 3px;
+    background-color: #444;
+    display: inline-block;
+    animation: blink 1.4s infinite;
+}
 
-    </style>
+.loading-bubble .dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-bubble .dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes blink {
+    0%, 80%, 100% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+    }
+}
+
+.chat-history::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-history::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.chat-history::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+</style>
+
 </head>
 <body>
     <div class="chat-box">
@@ -175,7 +204,7 @@
                     <div class="bot-msg"><strong>Bot:</strong> {{ pair.bot|safe }}</div>
                 </div>
             {% empty %}
-                <div style="text-align: center; margin: 20px;">
+                <div style="text-align: center; margin: 200px;">
                     <h3>Few examples to ask!</h3>
                     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
                         <button type="button" class="example-btn" onclick="submitExample('How to improve soil condition?')">How to improve soil condition?</button>
@@ -198,9 +227,11 @@
         <form method="POST" class="chat-input" id="chatForm">
             {% csrf_token %}
             <input type="text" id="userInput" name="user_input" placeholder="Type your question..." required>
-            <button type="submit">Send</button>
-            <button type="button" class="mic-button" onclick="startVoiceInput()">🎤</button>
+            <button type="submit" title="Send"><i class="fas fa-paper-plane"></i></button>
+            <input type="hidden" id="inputMode" name="input_mode" value="text">
+            <button type="button" class="mic-button" onclick="startVoiceInput()" title="Voice Input"><i class="fas fa-microphone"></i></button>
         </form>
+
 
         
 
@@ -220,41 +251,30 @@
     }
 
     function startVoiceInput() {
-        if (!('webkitSpeechRecognition' in window)) {
-            alert("Sorry, your browser doesn't support voice recognition.");
-            return;
-        }
-
-        const recognition = new webkitSpeechRecognition();
-        recognition.lang = 'en-IN'; // English 
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        recognition.start();
-
-        recognition.onstart = function () {
-            console.log("Voice recognition started. Speak now.");
-        };
-
-        recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            console.log("Recognized:", transcript);
-            document.getElementById('userInput').value = transcript;
-
-            document.getElementById("loadingBubble").style.display = "inline-block";
-
-            document.getElementById('chatForm').submit();
-        };
-
-        recognition.onerror = function(event) {
-            console.error("Voice recognition error:", event.error);
-            alert('Voice recognition error: ' + event.error);
-        };
-
-        recognition.onend = function () {
-            console.log("Voice recognition ended.");
-        };
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("Sorry, your browser doesn't support voice recognition.");
+        return;
     }
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-IN';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('userInput').value = transcript;
+
+        // ✅ Mark input mode as voice
+        document.getElementById('inputMode').value = 'voice';
+
+        document.getElementById("loadingBubble").style.display = "inline-block";
+        document.getElementById('chatForm').submit();
+    };
+}
+
     
         document.getElementById("chatForm").addEventListener("submit", function () {
             document.getElementById("loadingBubble").style.display = "inline-block";
@@ -280,6 +300,13 @@
             sessionStorage.setItem("chatScrollTop", chatHistory.scrollTop);
         });
 
+// Submit form on Enter key
+        document.getElementById("userInput").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default form submission
+                document.getElementById("chatForm").requestSubmit(); // Submit the form programmatically
+            }
+        });
 
 </script>
 
