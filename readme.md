@@ -8,11 +8,6 @@ A Django-based AI chatbot that empowers farmers to interact in **any language** 
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Usage](#usage)
-- [Dependencies](#dependencies)
-- [Configuration](#configuration)
-- [Examples](#examples)
-- [Troubleshooting](#troubleshooting)
 
 ---
 
