@@ -15,7 +15,7 @@ services:
       - key: DEBUG
         value: False
       - key: ALLOWED_HOSTS
-        value: your-render-domain.onrender.com
+        value: SmartAgroBot.onrender.com
       - key: OPENROUTER_API_KEY
         value: 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
       - key: WEATHER_API_KEY
