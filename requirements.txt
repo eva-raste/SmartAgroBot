@@ -7,3 +7,4 @@ speechrecognition
 deep-translator
 langdetect
 gunicorn
+whitenoise
